@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ridgeview Valley Middle School | Home of the Raptors</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#133E87',
+                            900: '#0F2C59',
+                            950: '#081A36'
+                        },
+                        silver: {
+                            100: '#F5F7FA',
+                            200: '#E4E9F0',
+                            300: '#C0C0C0',
+                            400: '#94A3B8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F5F7FA; }
+        ::-webkit-scrollbar-thumb { background: #C0C0C0; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+        .page-view { display: none; }
+        .page-view.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Emergency Alert Banner -->
+    <div id="emergency-alert" class="bg-amber-500 text-slate-950 px-4 py-2 text-sm font-semibold flex items-center justify-between shadow-inner relative z-50">
+        <div class="max-w-7xl mx-auto flex items-center gap-3 w-full justify-center text-center sm:text-left">
+            <span class="flex h-3 w-3 relative">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-slate-900"></span>
+            </span>
+            <span><strong>WEATHER ADVISORY:</strong> After-school outdoor athletics are canceled today due to high heat warnings. All practices moved indoors.</span>
+        </div>
+        <button onclick="dismissAlert()" class="text-slate-950 hover:bg-amber-600/30 px-2 py-0.5 rounded transition-colors text-xs font-bold uppercase tracking-wider ml-2">Dismiss</button>
+    </div>
+
+    <!-- Top Utility Bar -->
+    <div class="bg-navy-900 text-silver-200 text-xs py-2 px-4 border-b border-navy-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-4 flex-wrap justify-center sm:justify-start">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-phone text-silver-300"></i> Main: (555) 382-9000</span>
+                <span class="hidden md:inline text-slate-500">|</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-clock text-silver-300"></i> Hours: 8:15 AM - 3:45 PM</span>
+            </div>
+            <div class="flex items-center space-x-3 flex-wrap justify-center">
+                <button onclick="openModal('attendanceModal')" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded font-medium transition-colors shadow-sm flex items-center gap-1">
+                    <i class="fa-solid fa-user-check"></i> Report Absence
+                </button>
+                <button onclick="openModal('parentPortalModal')" class="hover:text-white transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-lock"></i> Parent Portal
+                </button>
+                <button onclick="openModal('studentPortalModal')" class="hover:text-white transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-graduation-cap"></i> Student Portal
+                </button>
+                <a href="#staff" onclick="switchPage('staff')" class="hover:text-white transition-colors">Staff Directory</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <!-- Logo & Mascot -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('home')">
+                <div class="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-white shadow-md border-2 border-silver-300">
+                    <i class="fa-solid fa-shield-cat text-2xl text-silver-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-extrabold text-navy-900 leading-tight">Ridgeview Valley Middle School</h1>
+                    <p class="text-xs text-slate-500 font-semibold tracking-wider uppercase">Home of the Raptors | Grades 6–8</p>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden lg:flex items-center space-x-1 text-sm font-semibold text-slate-700">
+                <button onclick="switchPage('home')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors active text-navy-900 bg-silver-100" data-page="home">Home</button>
+                <button onclick="switchPage('about')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="about">About Us</button>
+                <button onclick="switchPage('administration')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="administration">Admin</button>
+                <button onclick="switchPage('academics')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="academics">Academics</button>
+                <button onclick="switchPage('teams')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="teams">Teams</button>
+                <button onclick="switchPage('athletics')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="athletics">Athletics</button>
+                <button onclick="switchPage('clubs')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="clubs">Clubs</button>
+                <button onclick="switchPage('counseling')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="counseling">Counseling</button>
+                <button onclick="switchPage('parents')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="parents">Parents/Students</button>
+                <button onclick="switchPage('calendar')" class="nav-btn px-3 py-2 rounded-lg hover:bg-navy-900 hover:text-white transition-colors" data-page="calendar">Calendar</button>
+                <button onclick="switchPage('contact')" class="nav-btn px-3 py-2 rounded-lg bg-navy-900 text-white hover:bg-navy-800 transition-colors shadow-sm" data-page="contact">Contact</button>
+            </nav>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-navy-900 p-2 focus:outline-none text-2xl" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-navy-900 text-white px-6 py-4 space-y-2 border-t border-navy-800 shadow-xl">
+            <button onclick="switchPage('home'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Home</button>
+            <button onclick="switchPage('about'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">About Us</button>
+            <button onclick="switchPage('administration'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Administration & Counseling</button>
+            <button onclick="switchPage('academics'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Academics</button>
+            <button onclick="switchPage('teams'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Grade-Level Teams</button>
+            <button onclick="switchPage('athletics'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Athletics</button>
+            <button onclick="switchPage('clubs'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Clubs & Activities</button>
+            <button onclick="switchPage('counseling'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Counseling & Media Center</button>
+            <button onclick="switchPage('parents'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Parents & Students Info</button>
+            <button onclick="switchPage('staff'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Staff Directory</button>
+            <button onclick="switchPage('calendar'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded hover:bg-navy-800">Calendar</button>
+            <button onclick="switchPage('contact'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded bg-amber-500 text-navy-950 font-bold">Contact Us</button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- ================= HOME PAGE VIEW ================= -->
+        <div id="view-home" class="page-view active">
+            <!-- Hero Banner -->
+            <div class="relative bg-navy-900 text-white overflow-hidden py-16 lg:py-24 border-b-4 border-silver-300">
+                <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#C0C0C0_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <span class="bg-amber-500 text-navy-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block shadow-sm">
+                            Welcome Back, Raptors!
+                        </span>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                            Empowering Tomorrow's <span class="text-silver-300">Leaders</span> Today.
+                        </h1>
+                        <p class="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed">
+                            Welcome to Ridgeview Valley Middle School. We foster academic excellence, character development, and a supportive community for all 6th, 7th, and 8th-grade students.
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <button onclick="openModal('parentPortalModal')" class="bg-amber-500 hover:bg-amber-400 text-navy-950 px-6 py-3 rounded-xl font-bold transition-all shadow-lg flex items-center gap-2">
+                                <i class="fa-solid fa-lock"></i> Parent Portal Login
+                            </button>
+                            <button onclick="switchPage('calendar')" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-6 py-3 rounded-xl font-bold transition-all backdrop-blur-sm flex items-center gap-2">
+                                <i class="fa-solid fa-calendar-days"></i> School Calendar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5">
+                        <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-2xl space-y-4">
+                            <h3 class="text-lg font-bold text-white border-b border-white/20 pb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-bolt text-amber-400"></i> Quick Access Links
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3 text-sm font-medium">
+                                <button onclick="openModal('bellScheduleModal')" class="p-3 bg-navy-800 hover:bg-navy-700 rounded-xl text-left transition-colors flex flex-col gap-1 border border-navy-700">
+                                    <i class="fa-solid fa-bell text-silver-300"></i> Bell Schedule
+                                </button>
+                                <button onclick="openModal('supplyModal')" class="p-3 bg-navy-800 hover:bg-navy-700 rounded-xl text-left transition-colors flex flex-col gap-1 border border-navy-700">
+                                    <i class="fa-solid fa-backpack text-silver-300"></i> Supply Lists
+                                </button>
+                                <button onclick="openModal('menuModal')" class="p-3 bg-navy-800 hover:bg-navy-700 rounded-xl text-left transition-colors flex flex-col gap-1 border border-navy-700">
+                                    <i class="fa-solid fa-utensils text-silver-300"></i> Lunch Menus
+                                </button>
+                                <button onclick="openModal('busModal')" class="p-3 bg-navy-800 hover:bg-navy-700 rounded-xl text-left transition-colors flex flex-col gap-1 border border-navy-700">
+                                    <i class="fa-solid fa-bus text-silver-300"></i> Bus Routes
+                                </button>
+                            </div>
+                            <div class="pt-2">
+                                <button onclick="openModal('handbookModal')" class="w-full py-2.5 bg-silver-300 hover:bg-white text-navy-950 font-bold rounded-xl text-center transition-colors text-sm shadow">
+                                    <i class="fa-solid fa-book-open"></i> View Student Handbook & Code of Conduct
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Principal Welcome Section -->
+            <section class="py-16 bg-white border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-silver-100 rounded-3xl p-8 lg:p-12 border border-silver-300 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-4 text-center">
+                            <div class="relative inline-block">
+                                <img src="https://placehold.co/400x450/0F2C59/FFFFFF?text=Dr.+Marcus+Bennett" alt="Dr. Marcus Bennett" class="rounded-2xl shadow-lg w-full max-w-xs mx-auto border-4 border-white object-cover">
+                                <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-navy-900 text-white text-xs font-bold px-4 py-2 rounded-xl shadow border border-silver-300 whitespace-nowrap">
+                                    Dr. Marcus Bennett, Principal
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8 space-y-4">
+                            <span class="text-navy-900 font-bold tracking-widest text-xs uppercase bg-silver-200 px-3 py-1 rounded-md">Message from the Principal</span>
+                            <h2 class="text-3xl font-extrabold text-navy-900">Welcome to Ridgeview Valley Middle School!</h2>
+                            <p class="text-slate-700 leading-relaxed text-base">
+                                Dear Ridgeview Valley Families,
+                            </p>
+                            <p class="text-slate-600 leading-relaxed text-sm">
+                                It is with great enthusiasm and pride that I welcome you to the 2026-2027 school year. At Ridgeview Valley Middle School, our dedicated faculty and staff are committed to providing a safe, inclusive, and academically challenging environment where every student can discover their passions and achieve their full potential.
+                            </p>
+                            <p class="text-slate-600 leading-relaxed text-sm">
+                                We believe that middle school is a vital bridge between elementary foundation and high school readiness. Through our robust grade-level team structure, extensive athletics, arts, and STEM clubs, we ensure every Raptor feels connected and valued.
+                            </p>
+                            <div class="pt-4 flex items-center gap-4">
+                                <button onclick="switchPage('administration')" class="text-navy-900 font-bold hover:text-navy-800 text-sm flex items-center gap-1">
+                                    Meet our Full Administrative Team <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- News & Announcements Grid -->
+            <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Stay Informed</span>
+                        <h2 class="text-3xl font-extrabold text-navy-900 mt-2">Latest School News & Announcements</h2>
+                    </div>
+                    <button onclick="switchPage('parents')" class="text-sm font-bold text-navy-900 hover:text-navy-800 flex items-center gap-1">
+                        View All Archives <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- News Card 1 -->
+                    <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg transition-shadow">
+                        <div>
+                            <div class="h-48 bg-navy-900 relative flex items-center justify-center text-white">
+                                <i class="fa-solid fa-futbol text-5xl text-silver-300"></i>
+                                <span class="absolute top-3 left-3 bg-amber-500 text-navy-950 text-xs font-bold px-2.5 py-1 rounded-lg">Athletics</span>
+                            </div>
+                            <div class="p-6 space-y-3">
+                                <p class="text-xs text-slate-500 font-semibold"><i class="fa-regular fa-calendar"></i> August 28, 2026</p>
+                                <h3 class="text-xl font-bold text-navy-900">Fall Sports Tryouts Begin Monday</h3>
+                                <p class="text-slate-600 text-sm line-clamp-3">
+                                    Tryouts for boys' soccer, girls' volleyball, and cross country begin this Monday after school. All participants must have a valid physical on file.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <button onclick="openNewsModal('Fall Sports Tryouts Begin Monday', 'August 28, 2026', 'Tryouts for boys soccer, girls volleyball, and cross country begin this Monday after school at 3:45 PM. All participating students must have a current physical examination form uploaded to the athletic portal and signed parental consent. Please contact Athletic Director Coach Miller with questions.')" class="w-full py-2.5 bg-silver-100 hover:bg-navy-900 hover:text-white text-navy-900 font-bold rounded-xl text-center transition-colors text-sm border border-silver-300">
+                                Read Full Article
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- News Card 2 -->
+                    <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg transition-shadow">
+                        <div>
+                            <div class="h-48 bg-navy-900 relative flex items-center justify-center text-white">
+                                <i class="fa-solid fa-award text-5xl text-silver-300"></i>
+                                <span class="absolute top-3 left-3 bg-navy-800 text-white text-xs font-bold px-2.5 py-1 rounded-lg">Academics</span>
+                            </div>
+                            <div class="p-6 space-y-3">
+                                <p class="text-xs text-slate-500 font-semibold"><i class="fa-regular fa-calendar"></i> August 25, 2026</p>
+                                <h3 class="text-xl font-bold text-navy-900">Ridgeview Students Earn Honor Roll</h3>
+                                <p class="text-slate-600 text-sm line-clamp-3">
+                                    Congratulations to over 350 Raptors who achieved Principal's Honor Roll and Honor Roll status during the final grading period of last year.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <button onclick="openNewsModal('Ridgeview Students Earn Honor Roll Recognition', 'August 25, 2026', 'We are incredibly proud to celebrate over 350 Raptors who earned Honor Roll recognition for their dedication to academic excellence. Principal Honor Roll requires a 4.0 GPA, while Honor Roll requires 3.5-3.99 GPA. Certificates will be distributed during homeroom periods this Friday.')" class="w-full py-2.5 bg-silver-100 hover:bg-navy-900 hover:text-white text-navy-900 font-bold rounded-xl text-center transition-colors text-sm border border-silver-300">
+                                Read Full Article
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- News Card 3 -->
+                    <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg transition-shadow">
+                        <div>
+                            <div class="h-48 bg-navy-900 relative flex items-center justify-center text-white">
+                                <i class="fa-solid fa-robot text-5xl text-silver-300"></i>
+                                <span class="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg">STEM Club</span>
+                            </div>
+                            <div class="p-6 space-y-3">
+                                <p class="text-xs text-slate-500 font-semibold"><i class="fa-regular fa-calendar"></i> August 20, 2026</p>
+                                <h3 class="text-xl font-bold text-navy-900">Robotics Team Advances to Regionals</h3>
+                                <p class="text-slate-600 text-sm line-clamp-3">
+                                    The Raptor Robotics Club secured first place in the regional autonomous navigation challenge, advancing to the state championship tournament.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <button onclick="openNewsModal('Robotics Team Advances to Regional Competition', 'August 20, 2026', 'Our middle school robotics team, RaptorBotics, displayed exceptional engineering and teamwork at the district qualifier. Their custom-programmed autonomous rover completed all obstacle courses in record time. Good luck at the state tournament next month!')" class="w-full py-2.5 bg-silver-100 hover:bg-navy-900 hover:text-white text-navy-900 font-bold rounded-xl text-center transition-colors text-sm border border-silver-300">
+                                Read Full Article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= ABOUT US PAGE VIEW ================= -->
+        <div id="view-about" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">About Ridgeview Valley</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Our Mission, Vision & Community</h1>
+                <p class="text-slate-600 text-base">Ridgeview Valley Middle School is dedicated to cultivating curious minds, resilient learners, and respectful community members.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="w-12 h-12 bg-navy-900 text-silver-300 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy-900">Our Mission</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        To empower all students to achieve academic excellence, develop critical thinking skills, and demonstrate civic responsibility in a supportive, safe, and technologically enriched environment.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="w-12 h-12 bg-navy-900 text-silver-300 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy-900">Our Vision</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        To be a premier middle school recognized for innovative teaching practices, exceptional student engagement, and a thriving school community where every Raptor soars.
+                    </p>
+                </div>
+            </div>
+
+            <!-- School Improvement Plan & PBIS -->
+            <div class="bg-white p-8 lg:p-12 rounded-2xl border border-slate-200 shadow-sm space-y-8">
+                <h3 class="text-2xl font-bold text-navy-900 border-b border-slate-200 pb-4">School Improvement & PBIS Behavior Expectations</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-amber-500"></i> School Improvement Plan (SIP)
+                        </h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Our current SIP focuses on three primary pillars: 1) Enhancing literacy and numeracy across all content areas through targeted interventions, 2) Expanding STEM and computer science elective offerings, and 3) Strengthening social-emotional learning (SEL) support systems.
+                        </p>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-heart text-amber-500"></i> PBIS (Positive Behavioral Interventions & Supports)
+                        </h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            At RVMS, Raptors abide by the <strong>ROAR</strong> expectations:
+                        </p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm text-slate-700">
+                            <li><strong>R</strong>esponsibility: Be accountable for your actions and learning.</li>
+                            <li><strong>O</strong>wnership: Take pride in our school environment.</li>
+                            <li><strong>A</strong>ttitude: Maintain a positive, growth-oriented mindset.</li>
+                            <li><strong>R</strong>espect: Treat peers, staff, and property with dignity.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ADMINISTRATION PAGE VIEW ================= -->
+        <div id="view-administration" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Leadership Team</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Administration & Counseling</h1>
+                <p class="text-slate-600 text-base">Committed to guiding students, supporting families, and fostering an exceptional learning atmosphere.</p>
+            </div>
+
+            <!-- Principal -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-6">
+                <img src="https://placehold.co/200x200/0F2C59/FFFFFF?text=Dr.+Bennett" alt="Dr. Marcus Bennett" class="rounded-2xl w-36 h-36 object-cover border-4 border-silver-300 shadow">
+                <div class="space-y-2 text-center sm:text-left">
+                    <span class="bg-navy-900 text-white text-xs font-bold px-2.5 py-1 rounded">Principal</span>
+                    <h3 class="text-2xl font-bold text-navy-900">Dr. Marcus Bennett</h3>
+                    <p class="text-sm text-slate-600"><i class="fa-solid fa-envelope"></i> mbennett@ridgeviewvalley.edu</p>
+                    <p class="text-sm text-slate-600"><i class="fa-solid fa-phone"></i> (555) 382-9001</p>
+                </div>
+            </div>
+
+            <!-- Assistant Principals -->
+            <div class="space-y-6">
+                <h3 class="text-2xl font-extrabold text-navy-900 text-center">Assistant Principals</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <img src="https://placehold.co/150x150/133E87/FFFFFF?text=Mrs.+Grant" alt="Mrs. Alicia Grant" class="w-24 h-24 rounded-full mx-auto object-cover border-2 border-silver-300">
+                        <span class="bg-amber-500 text-navy-950 text-xs font-bold px-2 py-0.5 rounded">6th Grade</span>
+                        <h4 class="text-lg font-bold text-navy-900">Mrs. Alicia Grant</h4>
+                        <p class="text-xs text-slate-600">agrant@ridgeviewvalley.edu</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <img src="https://placehold.co/150x150/133E87/FFFFFF?text=Mr.+Hayes" alt="Mr. Robert Hayes" class="w-24 h-24 rounded-full mx-auto object-cover border-2 border-silver-300">
+                        <span class="bg-amber-500 text-navy-950 text-xs font-bold px-2 py-0.5 rounded">7th Grade</span>
+                        <h4 class="text-lg font-bold text-navy-900">Mr. Robert Hayes</h4>
+                        <p class="text-xs text-slate-600">rhayes@ridgeviewvalley.edu</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <img src="https://placehold.co/150x150/133E87/FFFFFF?text=Mrs.+Brooks" alt="Mrs. Natalie Brooks" class="w-24 h-24 rounded-full mx-auto object-cover border-2 border-silver-300">
+                        <span class="bg-amber-500 text-navy-950 text-xs font-bold px-2 py-0.5 rounded">8th Grade</span>
+                        <h4 class="text-lg font-bold text-navy-900">Mrs. Natalie Brooks</h4>
+                        <p class="text-xs text-slate-600">nbrooks@ridgeviewvalley.edu</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Counselors -->
+            <div class="space-y-6">
+                <h3 class="text-2xl font-extrabold text-navy-900 text-center">School Counselors</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <span class="bg-silver-200 text-navy-900 text-xs font-bold px-2 py-0.5 rounded">6th Grade Counselor</span>
+                        <h4 class="text-lg font-bold text-navy-900">Mrs. Vanessa Reed</h4>
+                        <p class="text-xs text-slate-600">vreed@ridgeviewvalley.edu</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <span class="bg-silver-200 text-navy-900 text-xs font-bold px-2 py-0.5 rounded">7th Grade Counselor</span>
+                        <h4 class="text-lg font-bold text-navy-900">Mr. Jordan Mitchell</h4>
+                        <p class="text-xs text-slate-600">jmitchell@ridgeviewvalley.edu</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <span class="bg-silver-200 text-navy-900 text-xs font-bold px-2 py-0.5 rounded">8th Grade Counselor</span>
+                        <h4 class="text-lg font-bold text-navy-900">Mrs. Sophia Carter</h4>
+                        <p class="text-xs text-slate-600">scarter@ridgeviewvalley.edu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ACADEMICS PAGE VIEW ================= -->
+        <div id="view-academics" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Academic Excellence</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Academics & Curriculum</h1>
+                <p class="text-slate-600 text-base">Rigorous courses, state-of-the-art labs, and dedicated educators preparing students for high school and beyond.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="w-12 h-12 bg-navy-900 text-silver-300 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-900">Core Curriculum</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        English Language Arts, Mathematics (including Algebra I for qualifying 8th graders), Comprehensive Science, and Social Studies aligned with state and national standards.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="w-12 h-12 bg-navy-900 text-silver-300 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-900">State Testing Information</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Spring state assessments measure student progress in ELA, Math, and Science (8th grade). Detailed testing windows, preparation guides, and practice tests are available on our testing portal.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="w-12 h-12 bg-navy-900 text-silver-300 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-navy-900">Registration & Enrollment</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        New student registration is open year-round. Proof of residency, immunization records, and birth certificates are required. Visit the district main office or use our online portal.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Teacher Webpages & Honor Roll Link -->
+            <div class="bg-navy-900 text-white rounded-2xl p-8 lg:p-12 shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-3">
+                    <h3 class="text-2xl font-bold">Looking for Teacher Webpages or Homework?</h3>
+                    <p class="text-slate-300 text-sm max-w-xl">
+                        Access daily homework assignments, syllabus info, and teacher contact details directly through our Staff Directory.
+                    </p>
+                </div>
+                <button onclick="switchPage('staff')" class="bg-amber-500 hover:bg-amber-400 text-navy-950 px-6 py-3 rounded-xl font-bold transition-all shadow whitespace-nowrap">
+                    Browse Staff Directory
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= GRADE-LEVEL TEAMS PAGE VIEW ================= -->
+        <div id="view-teams" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Collaborative Learning</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Grade-Level Interdisciplinary Teams</h1>
+                <p class="text-slate-600 text-base">Our team structure creates smaller learning communities within our middle school to foster strong student-teacher relationships.</p>
+            </div>
+
+            <!-- 6th Grade Teams -->
+            <div class="space-y-4">
+                <h3 class="text-2xl font-extrabold text-navy-900 border-b-2 border-navy-900 pb-2 flex items-center gap-2">
+                    <span class="bg-navy-900 text-white px-3 py-1 rounded-lg text-sm">6th Grade</span> Interdisciplinary Teams
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500"></span> Blue Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mr. Anderson (Math), Ms. Vance (ELA), Mr. Davis (Science)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-green-500"></span> Green Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mrs. Lopez (Math), Mr. King (ELA), Ms. Young (Social Studies)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-yellow-500"></span> Yellow Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Dr. Evans (Math), Mrs. Hall (Science), Mr. Baker (ELA)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-purple-500"></span> Purple Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Ms. Wright (ELA), Mr. Scott (Math), Mrs. Green (Science)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-orange-500"></span> Orange Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mr. Adams (Math), Ms. Nelson (Social Studies), Mrs. Baker (ELA)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7th Grade Teams -->
+            <div class="space-y-4 pt-6">
+                <h3 class="text-2xl font-extrabold text-navy-900 border-b-2 border-navy-900 pb-2 flex items-center gap-2">
+                    <span class="bg-navy-900 text-white px-3 py-1 rounded-lg text-sm">7th Grade</span> Interdisciplinary Teams
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-red-600"></span> Red Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mr. Cooper (Science), Ms. Ramirez (ELA), Mr. Torres (Math)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-900"></span> Black Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mrs. White (Math), Mr. Harris (History), Ms. Clark (Science)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-silver-400"></span> Silver Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mr. Lewis (ELA), Mrs. Walker (Math), Dr. Allen (Science)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-800"></span> Brown Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Ms. Young (Math), Mr. Hernandez (History), Mrs. Perez (ELA)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-navy-900"></span> Navy Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mr. Robinson (Science), Ms. Martin (ELA), Mrs. Lee (Math)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-600"></span> Emerald Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Dr. King (Math), Mr. Turner (Social Studies), Ms. Phillips (ELA)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8th Grade Teams -->
+            <div class="space-y-4 pt-6">
+                <h3 class="text-2xl font-extrabold text-navy-900 border-b-2 border-navy-900 pb-2 flex items-center gap-2">
+                    <span class="bg-navy-900 text-white px-3 py-1 rounded-lg text-sm">8th Grade</span> Interdisciplinary Teams
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-400"></span> Gold Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mr. Campbell (Algebra), Mrs. Parker (Physical Science), Mr. Evans (Civics)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-600"></span> Sapphire Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Ms. Edwards (ELA), Mr. Collins (Math), Mrs. Stewart (Science)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-purple-600"></span> Violet Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Dr. Murphy (Science), Mrs. Cook (ELA), Mr. Bailey (Math)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-800"></span> Forest Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mr. Rivera (Math), Ms. Cooper (History), Mrs. Richardson (ELA)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-red-800"></span> Crimson Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mrs. Cox (Science), Mr. Howard (Math), Ms. Ward (ELA)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-700"></span> Onyx Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Mr. Gray (Math), Mrs. Ramirez (Civics), Dr. Watson (Science)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-lg font-bold text-navy-800 flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-sky-300"></span> Platinum Team</h4>
+                        <p class="text-xs text-slate-500">Core Teachers: Ms. James (ELA), Mr. Kelly (Algebra), Mrs. Brooks (Science)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ATHLETICS PAGE VIEW ================= -->
+        <div id="view-athletics" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Raptor Pride</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Athletics & Sports</h1>
+                <p class="text-slate-600 text-base">Promoting teamwork, sportsmanship, and physical wellness across Fall, Winter, and Spring seasons.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Fall Sports -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="bg-navy-900 text-white p-4 rounded-xl text-center font-bold text-lg">
+                        Fall Sports
+                    </div>
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li class="flex justify-between items-center border-b pb-2"><span>Boys Soccer</span> <span class="text-xs font-bold text-navy-900 bg-silver-200 px-2 py-0.5 rounded">Tryouts Mon</span></li>
+                        <li class="flex justify-between items-center border-b pb-2"><span>Girls Volleyball</span> <span class="text-xs font-bold text-navy-900 bg-silver-200 px-2 py-0.5 rounded">Tryouts Mon</span></li>
+                        <li class="flex justify-between items-center pb-2"><span>Cross Country (Co-ed)</span> <span class="text-xs font-bold text-navy-900 bg-silver-200 px-2 py-0.5 rounded">Open Practice</span></li>
+                    </ul>
+                </div>
+                <!-- Winter Sports -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="bg-navy-900 text-white p-4 rounded-xl text-center font-bold text-lg">
+                        Winter Sports
+                    </div>
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li class="flex justify-between items-center border-b pb-2"><span>Boys Basketball</span> <span class="text-xs text-slate-500">Starts Nov</span></li>
+                        <li class="flex justify-between items-center border-b pb-2"><span>Girls Basketball</span> <span class="text-xs text-slate-500">Starts Nov</span></li>
+                        <li class="flex justify-between items-center pb-2"><span>Wrestling (Co-ed)</span> <span class="text-xs text-slate-500">Starts Dec</span></li>
+                    </ul>
+                </div>
+                <!-- Spring Sports -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="bg-navy-900 text-white p-4 rounded-xl text-center font-bold text-lg">
+                        Spring Sports
+                    </div>
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li class="flex justify-between items-center border-b pb-2"><span>Track & Field</span> <span class="text-xs text-slate-500">Starts Mar</span></li>
+                        <li class="flex justify-between items-center border-b pb-2"><span>Baseball</span> <span class="text-xs text-slate-500">Starts Mar</span></li>
+                        <li class="flex justify-between items-center pb-2"><span>Softball</span> <span class="text-xs text-slate-500">Starts Mar</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-silver-100 border border-silver-300 p-8 rounded-2xl text-center space-y-3">
+                <h3 class="text-2xl font-bold text-navy-900">Athletic Clearance Requirements</h3>
+                <p class="text-slate-600 text-sm max-w-2xl mx-auto">
+                    All students wishing to participate in middle school sports must submit a completed physical examination form signed by a licensed physician, proof of health insurance, and parent consent via our secure athletic portal.
+                </p>
+                <button onclick="openModal('parentPortalModal')" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow">
+                    Access Athletic Forms in Portal
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= CLUBS & ACTIVITIES PAGE VIEW ================= -->
+        <div id="view-clubs" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Beyond the Classroom</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Clubs & Student Activities</h1>
+                <p class="text-slate-600 text-base">Explore your interests, build leadership skills, and make lifelong friends through our diverse club offerings.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="text-2xl text-navy-900"><i class="fa-solid fa-robot"></i></div>
+                    <h3 class="text-xl font-bold text-navy-900">RaptorBotics Club</h3>
+                    <p class="text-slate-600 text-sm">Design, build, and program autonomous robots for regional and state competitions.</p>
+                    <p class="text-xs text-slate-500 font-semibold pt-2"><i class="fa-regular fa-clock"></i> Tuesdays & Thursdays, 3:50 PM</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="text-2xl text-navy-900"><i class="fa-solid fa-palette"></i></div>
+                    <h3 class="text-xl font-bold text-navy-900">Art & Ceramics Club</h3>
+                    <p class="text-slate-600 text-sm">Express your creativity through painting, sculpture, and mixed media art projects.</p>
+                    <p class="text-xs text-slate-500 font-semibold pt-2"><i class="fa-regular fa-clock"></i> Wednesdays, 3:50 PM</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="text-2xl text-navy-900"><i class="fa-solid fa-users"></i></div>
+                    <h3 class="text-xl font-bold text-navy-900">Student Council</h3>
+                    <p class="text-slate-600 text-sm">Represent student voices, plan school spirit weeks, and organize community service projects.</p>
+                    <p class="text-xs text-slate-500 font-semibold pt-2"><i class="fa-regular fa-clock"></i> 1st & 3rd Mondays, 8:00 AM</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="text-2xl text-navy-900"><i class="fa-solid fa-newspaper"></i></div>
+                    <h3 class="text-xl font-bold text-navy-900">Raptor Gazette Newspaper</h3>
+                    <p class="text-slate-600 text-sm">Write articles, conduct interviews, and publish our monthly digital school newspaper.</p>
+                    <p class="text-xs text-slate-500 font-semibold pt-2"><i class="fa-regular fa-clock"></i> Thursdays, 3:50 PM</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="text-2xl text-navy-900"><i class="fa-solid fa-music"></i></div>
+                    <h3 class="text-xl font-bold text-navy-900">Jazz Band & Choir</h3>
+                    <p class="text-slate-600 text-sm">Perform instrumental and vocal music at seasonal school concerts and district festivals.</p>
+                    <p class="text-xs text-slate-500 font-semibold pt-2"><i class="fa-regular fa-clock"></i> Mondays & Fridays, 3:50 PM</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="text-2xl text-navy-900"><i class="fa-solid fa-chess"></i></div>
+                    <h3 class="text-xl font-bold text-navy-900">Chess & Strategy Club</h3>
+                    <p class="text-slate-600 text-sm">Sharpen your tactical thinking and compete in friendly school chess tournaments.</p>
+                    <p class="text-xs text-slate-500 font-semibold pt-2"><i class="fa-regular fa-clock"></i> Tuesdays, 3:50 PM</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= COUNSELING & MEDIA CENTER VIEW ================= -->
+        <div id="view-counseling" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Student Support</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Counseling & Media Center</h1>
+                <p class="text-slate-600 text-base">Resources for academic success, social-emotional wellness, and library media services.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-2xl font-bold text-navy-900 flex items-center gap-2">
+                        <i class="fa-solid fa-heart text-amber-500"></i> Counseling Services
+                    </h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Our school counseling team provides individual and small group counseling, crisis intervention, academic planning, and high school transition support. Students can request a meeting with their counselor by filling out the online appointment form in their Student Portal.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-2xl font-bold text-navy-900 flex items-center gap-2">
+                        <i class="fa-solid fa-book-bookmark text-amber-500"></i> Media Center & Library
+                    </h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        The RVMS Media Center is open daily from 7:45 AM to 4:15 PM. Students have access to over 15,000 physical volumes, digital audiobooks, research databases, and collaborative study stations.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PARENTS & STUDENTS PAGE VIEW ================= -->
+        <div id="view-parents" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Community Hub</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Parents & Students Resources</h1>
+                <p class="text-slate-600 text-base">Quick access to essential school logistics, lunch menus, bus routes, volunteer opportunities, and photo galleries.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <button onclick="openModal('busModal')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-navy-900 transition-colors text-left space-y-3">
+                    <div class="w-12 h-12 bg-navy-900 text-white rounded-xl flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-bus"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900">Bus Routes & Stops</h3>
+                    <p class="text-xs text-slate-600">Find your morning and afternoon bus pickup times and route numbers.</p>
+                </button>
+                <button onclick="openModal('menuModal')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-navy-900 transition-colors text-left space-y-3">
+                    <div class="w-12 h-12 bg-navy-900 text-white rounded-xl flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-utensils"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900">Cafeteria Menus</h3>
+                    <p class="text-xs text-slate-600">Check weekly breakfast and hot lunch selections and nutritional facts.</p>
+                </button>
+                <button onclick="openModal('volunteerModal')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-navy-900 transition-colors text-left space-y-3">
+                    <div class="w-12 h-12 bg-navy-900 text-white rounded-xl flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900">Volunteer Info</h3>
+                    <p class="text-xs text-slate-600">Join our PTO, chaperone field trips, and volunteer in classrooms.</p>
+                </button>
+                <button onclick="openModal('galleryModal')" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-navy-900 transition-colors text-left space-y-3">
+                    <div class="w-12 h-12 bg-navy-900 text-white rounded-xl flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-images"></i></div>
+                    <h3 class="text-lg font-bold text-navy-900">School Photo Gallery</h3>
+                    <p class="text-xs text-slate-600">Browse snapshots of student activities, pep rallies, and science fairs.</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= STAFF DIRECTORY PAGE VIEW ================= -->
+        <div id="view-staff" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Faculty & Staff</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Staff Directory</h1>
+                <p class="text-slate-600 text-base">Search for teachers, administrators, and support staff by name or department.</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="max-w-xl mx-auto">
+                <div class="relative">
+                    <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="staff-search" oninput="filterStaff()" placeholder="Search staff by name, subject, or grade..." class="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-navy-900 shadow-sm">
+                </div>
+            </div>
+
+            <!-- Staff Grid -->
+            <div id="staff-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Populated dynamically via JS or static cards -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2 staff-card" data-name="Dr. Marcus Bennett" data-dept="Administration">
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded">Principal</span>
+                    <h3 class="text-lg font-bold text-navy-900">Dr. Marcus Bennett</h3>
+                    <p class="text-xs text-slate-600"><i class="fa-solid fa-envelope"></i> mbennett@ridgeviewvalley.edu</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2 staff-card" data-name="Mrs. Alicia Grant" data-dept="Administration 6th">
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded">Assistant Principal (6th)</span>
+                    <h3 class="text-lg font-bold text-navy-900">Mrs. Alicia Grant</h3>
+                    <p class="text-xs text-slate-600"><i class="fa-solid fa-envelope"></i> agrant@ridgeviewvalley.edu</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2 staff-card" data-name="Mr. Anderson" data-dept="Math 6th Blue Team">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded">6th Grade Math</span>
+                    <h3 class="text-lg font-bold text-navy-900">Mr. David Anderson</h3>
+                    <p class="text-xs text-slate-600"><i class="fa-solid fa-envelope"></i> danderson@ridgeviewvalley.edu</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2 staff-card" data-name="Ms. Vance" data-dept="ELA 6th Blue Team">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded">6th Grade ELA</span>
+                    <h3 class="text-lg font-bold text-navy-900">Ms. Sarah Vance</h3>
+                    <p class="text-xs text-slate-600"><i class="fa-solid fa-envelope"></i> svance@ridgeviewvalley.edu</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2 staff-card" data-name="Mr. Cooper" data-dept="Science 7th Red Team">
+                    <span class="text-xs font-bold text-red-600 bg-red-50 px-2.5 py-0.5 rounded">7th Grade Science</span>
+                    <h3 class="text-lg font-bold text-navy-900">Mr. James Cooper</h3>
+                    <p class="text-xs text-slate-600"><i class="fa-solid fa-envelope"></i> jcooper@ridgeviewvalley.edu</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2 staff-card" data-name="Mr. Campbell" data-dept="Algebra 8th Gold Team">
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded">8th Grade Algebra</span>
+                    <h3 class="text-lg font-bold text-navy-900">Mr. Thomas Campbell</h3>
+                    <p class="text-xs text-slate-600"><i class="fa-solid fa-envelope"></i> tcampbell@ridgeviewvalley.edu</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= CALENDAR PAGE VIEW ================= -->
+        <div id="view-calendar" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Schedule</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">School Calendar</h1>
+                <p class="text-slate-600 text-base">Upcoming events, holidays, early release days, and athletic fixtures.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <h3 class="text-2xl font-bold text-navy-900">September 2026</h3>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1.5 bg-silver-100 rounded-lg text-sm font-bold text-navy-900 border">&larr; Prev</button>
+                        <button class="px-3 py-1.5 bg-silver-100 rounded-lg text-sm font-bold text-navy-900 border">Next &rarr;</button>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-4 rounded-xl bg-silver-100 border border-silver-300">
+                        <div class="bg-navy-900 text-white px-4 py-2 rounded-xl text-center font-bold">
+                            <span class="block text-xs uppercase">Sep</span>
+                            <span class="text-xl">07</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900">Labor Day - No School</h4>
+                            <p class="text-xs text-slate-600">District offices and school closed for holiday.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 rounded-xl bg-silver-100 border border-silver-300">
+                        <div class="bg-navy-900 text-white px-4 py-2 rounded-xl text-center font-bold">
+                            <span class="block text-xs uppercase">Sep</span>
+                            <span class="text-xl">14</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900">Fall Book Fair Opens in Media Center</h4>
+                            <p class="text-xs text-slate-600">Annual scholastic book fair runs all week during library hours.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 rounded-xl bg-silver-100 border border-silver-300">
+                        <div class="bg-navy-900 text-white px-4 py-2 rounded-xl text-center font-bold">
+                            <span class="block text-xs uppercase">Sep</span>
+                            <span class="text-xl">22</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900">Parent-Teacher Conferences (4:00 PM - 7:30 PM)</h4>
+                            <p class="text-xs text-slate-600">Schedule meetings via the Parent Portal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= CONTACT US PAGE VIEW ================= -->
+        <div id="view-contact" class="page-view py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-navy-900 bg-silver-200 px-3 py-1 rounded-md uppercase tracking-wider">Get in Touch</span>
+                <h1 class="text-4xl font-extrabold text-navy-900">Contact RVMS</h1>
+                <p class="text-slate-600 text-base">We are here to help. Reach out to our main office, attendance desk, or send us a message online.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                        <h3 class="text-2xl font-bold text-navy-900">School Information</h3>
+                        <div class="space-y-4 text-sm text-slate-700">
+                            <p class="flex items-start gap-3"><i class="fa-solid fa-location-dot text-navy-900 mt-1"></i> <span>1420 Valley Raptor Way, Ridgeview, State 30342</span></p>
+                            <p class="flex items-center gap-3"><i class="fa-solid fa-phone text-navy-900"></i> <span>Main Office: (555) 382-9000</span></p>
+                            <p class="flex items-center gap-3"><i class="fa-solid fa-user-xmark text-navy-900"></i> <span>Attendance Office: (555) 382-9005</span></p>
+                            <p class="flex items-center gap-3"><i class="fa-solid fa-print text-navy-900"></i> <span>Fax: (555) 382-9009</span></p>
+                            <p class="flex items-center gap-3"><i class="fa-solid fa-clock text-navy-900"></i> <span>School Hours: 8:15 AM – 3:45 PM</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <h3 class="text-2xl font-bold text-navy-900">Send Us a Message</h3>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Your Name</label>
+                            <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-navy-900">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Your Email</label>
+                            <input type="email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-navy-900">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Message</label>
+                            <textarea rows="4" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-navy-900"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl transition-colors shadow">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Attendance Modal -->
+    <div id="attendanceModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">Report Student Absence</h3>
+                <button onclick="closeModal('attendanceModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <form onsubmit="submitModalForm(event, 'attendanceModal', 'Absence reported successfully. Attendance office has been notified.')" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-semibold mb-1">Student Full Name</label>
+                    <input type="text" required class="w-full px-3 py-2 border rounded-lg">
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">Grade Level</label>
+                    <select class="w-full px-3 py-2 border rounded-lg">
+                        <option>6th Grade</option>
+                        <option>7th Grade</option>
+                        <option>8th Grade</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">Reason for Absence</label>
+                    <select class="w-full px-3 py-2 border rounded-lg">
+                        <option>Illness</option>
+                        <option>Medical Appointment</option>
+                        <option>Family Emergency</option>
+                        <option>Religious Observance</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">Parent/Guardian Name & Signature</label>
+                    <input type="text" required class="w-full px-3 py-2 border rounded-lg">
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-lg">Submit Absence Notice</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Parent Portal Modal -->
+    <div id="parentPortalModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">Parent Portal Login</h3>
+                <button onclick="closeModal('parentPortalModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <form onsubmit="submitModalForm(event, 'parentPortalModal', 'Logged into Parent Portal successfully.')" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-semibold mb-1">Parent Email</label>
+                    <input type="email" required class="w-full px-3 py-2 border rounded-lg" placeholder="parent@example.com">
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">Password</label>
+                    <input type="password" required class="w-full px-3 py-2 border rounded-lg">
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-lg">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Student Portal Modal -->
+    <div id="studentPortalModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">Student Portal Login</h3>
+                <button onclick="closeModal('studentPortalModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <form onsubmit="submitModalForm(event, 'studentPortalModal', 'Logged into Student Portal successfully.')" class="space-y-4 text-sm">
+                <div>
+                    <label class="block font-semibold mb-1">Student ID Number</label>
+                    <input type="text" required class="w-full px-3 py-2 border rounded-lg" placeholder="e.g. 104829">
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">Password</label>
+                    <input type="password" required class="w-full px-3 py-2 border rounded-lg">
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-lg">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- News Modal -->
+    <div id="newsModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 id="newsModalTitle" class="text-xl font-bold text-navy-900">News Title</h3>
+                <button onclick="closeModal('newsModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <p id="newsModalDate" class="text-xs text-slate-500 font-semibold"></p>
+            <p id="newsModalContent" class="text-slate-700 text-sm leading-relaxed"></p>
+            <button onclick="closeModal('newsModal')" class="w-full py-2.5 bg-navy-900 text-white font-bold rounded-lg">Close</button>
+        </div>
+    </div>
+
+    <!-- Bell Schedule Modal -->
+    <div id="bellScheduleModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">Regular Bell Schedule</h3>
+                <button onclick="closeModal('bellScheduleModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-700">
+                <li class="flex justify-between border-b pb-1"><span>Warning Bell</span> <span>8:10 AM</span></li>
+                <li class="flex justify-between border-b pb-1"><span>Period 1</span> <span>8:15 AM - 9:05 AM</span></li>
+                <li class="flex justify-between border-b pb-1"><span>Period 2</span> <span>9:10 AM - 10:00 AM</span></li>
+                <li class="flex justify-between border-b pb-1"><span>Period 3 (Advisory)</span> <span>10:05 AM - 10:35 AM</span></li>
+                <li class="flex justify-between border-b pb-1"><span>Period 4</span> <span>10:40 AM - 11:30 AM</span></li>
+                <li class="flex justify-between border-b pb-1"><span>Period 5 & Lunch</span> <span>11:35 AM - 1:10 PM</span></li>
+                <li class="flex justify-between border-b pb-1"><span>Period 6</span> <span>1:15 PM - 2:05 PM</span></li>
+                <li class="flex justify-between border-b pb-1"><span>Period 7</span> <span>2:10 PM - 3:00 PM</span></li>
+                <li class="flex justify-between pb-1"><span>Period 8</span> <span>3:05 PM - 3:45 PM</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Supply List Modal -->
+    <div id="supplyModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">General Supply List (Grades 6-8)</h3>
+                <button onclick="closeModal('supplyModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700">
+                <li>1 Heavy duty 3-ring binder (2 inch)</li>
+                <li>5 Tab dividers with pockets</li>
+                <li>Loose-leaf college ruled notebook paper (pack of 500)</li>
+                <li>No. 2 pencils and black/blue ballpoint pens</li>
+                <li>Colored pencils (pack of 12)</li>
+                <li>Earbuds or headphones with standard audio jack</li>
+                <li>Personal water bottle (labeled with name)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Cafeteria Menu Modal -->
+    <div id="menuModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">Cafeteria Lunch Menu (This Week)</h3>
+                <button onclick="closeModal('menuModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <ul class="space-y-2 text-sm text-slate-700">
+                <li class="border-b pb-1"><strong>Monday:</strong> Crispy Chicken Tenders, Mashed Potatoes, Steamed Broccoli, Fresh Fruit</li>
+                <li class="border-b pb-1"><strong>Tuesday:</strong> Cheese or Pepperoni Pizza, Garden Salad, Baby Carrots, Applesauce</li>
+                <li class="border-b pb-1"><strong>Wednesday:</strong> Beef & Cheese Taco Fiesta, Black Beans, Spanish Rice, Chilled Pears</li>
+                <li class="border-b pb-1"><strong>Thursday:</strong> Turkey & Cheese Deli Sub, Baked Chips, Celery Sticks, Fresh Banana</li>
+                <li class="border-b pb-1"><strong>Friday:</strong> Cheeseburger on Whole Wheat Bun, French Fries, Baked Beans, Orange Slices</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Bus Routes Modal -->
+    <div id="busModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">Bus Route Information</h3>
+                <button onclick="closeModal('busModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <p class="text-sm text-slate-600">Enter your street address to look up your assigned bus route and morning pickup time:</p>
+            <div class="space-y-3 text-sm">
+                <input type="text" placeholder="Enter home address..." class="w-full px-3 py-2 border rounded-lg">
+                <button onclick="alert('Route found: Bus #42 (Oakridge Circuit). Morning pickup at 7:32 AM.')" class="w-full py-2.5 bg-navy-900 text-white font-bold rounded-lg">Search Route</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Volunteer Modal -->
+    <div id="volunteerModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">Volunteer Registration</h3>
+                <button onclick="closeModal('volunteerModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <form onsubmit="submitModalForm(event, 'volunteerModal', 'Volunteer application submitted. Background check instructions sent via email.')" class="space-y-3 text-sm">
+                <div><label class="block font-semibold mb-1">Full Name</label><input type="text" required class="w-full px-3 py-2 border rounded-lg"></div>
+                <div><label class="block font-semibold mb-1">Email Address</label><input type="email" required class="w-full px-3 py-2 border rounded-lg"></div>
+                <div><label class="block font-semibold mb-1">Area of Interest</label><select class="w-full px-3 py-2 border rounded-lg"><option>PTO / Fundraising</option><option>Library Assistant</option><option>Field Trip Chaperone</option><option>Athletics Booster</option></select></div>
+                <button type="submit" class="w-full py-2.5 bg-navy-900 text-white font-bold rounded-lg">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div id="galleryModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">School Photo Gallery</h3>
+                <button onclick="closeModal('galleryModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-200 h-36 rounded-xl flex items-center justify-center text-slate-500 font-semibold"><i class="fa-solid fa-image text-3xl"></i> Science Fair</div>
+                <div class="bg-slate-200 h-36 rounded-xl flex items-center justify-center text-slate-500 font-semibold"><i class="fa-solid fa-image text-3xl"></i> Fall Pep Rally</div>
+                <div class="bg-slate-200 h-36 rounded-xl flex items-center justify-center text-slate-500 font-semibold"><i class="fa-solid fa-image text-3xl"></i> Robotics Team</div>
+                <div class="bg-slate-200 h-36 rounded-xl flex items-center justify-center text-slate-500 font-semibold"><i class="fa-solid fa-image text-3xl"></i> Jazz Band Concert</div>
+            </div>
+            <button onclick="closeModal('galleryModal')" class="w-full py-2.5 bg-navy-900 text-white font-bold rounded-lg">Close</button>
+        </div>
+    </div>
+
+    <!-- Student Handbook Modal -->
+    <div id="handbookModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-navy-900">Student Handbook & Code of Conduct</h3>
+                <button onclick="closeModal('handbookModal')" class="text-slate-500 hover:text-slate-800 font-bold text-xl">&times;</button>
+            </div>
+            <p class="text-sm text-slate-700 leading-relaxed">
+                The Ridgeview Valley Middle School Student Handbook outlines behavioral expectations, dress code guidelines, cell phone and electronic device policies, academic honesty standards, and anti-bullying protocols.
+            </p>
+            <div class="bg-silver-100 p-4 rounded-xl text-xs text-slate-600 space-y-2">
+                <p><strong>Cell Phone Policy:</strong> Phones must remain powered off and stored in lockers during instructional hours (8:15 AM - 3:45 PM).</p>
+                <p><strong>Dress Code:</strong> Clothing must be appropriate for a positive learning environment and cover all undergarments safely.</p>
+            </div>
+            <button onclick="closeModal('handbookModal')" class="w-full py-2.5 bg-navy-900 text-white font-bold rounded-lg">Got It</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-navy-950 text-silver-300 py-12 border-t-4 border-silver-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-white border border-silver-300">
+                        <i class="fa-solid fa-shield-cat text-xl text-silver-300"></i>
+                    </div>
+                    <span class="text-lg font-bold text-white">Ridgeview Valley MS</span>
+                </div>
+                <p class="text-xs text-silver-400">Home of the Raptors | Grades 6–8 Public Middle School</p>
+                <p class="text-xs text-silver-400"><i class="fa-solid fa-location-dot"></i> 1420 Valley Raptor Way, Ridgeview</p>
+            </div>
+            <div class="space-y-2">
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider">Quick Contact</h4>
+                <p class="text-xs"><i class="fa-solid fa-phone"></i> Main Office: (555) 382-9000</p>
+                <p class="text-xs"><i class="fa-solid fa-user-xmark"></i> Attendance: (555) 382-9005</p>
+                <p class="text-xs"><i class="fa-solid fa-clock"></i> Hours: 8:15 AM – 3:45 PM</p>
+            </div>
+            <div class="space-y-2">
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider">District Links</h4>
+                <p class="text-xs hover:text-white cursor-pointer" onclick="switchPage('about')">District Superintendent</p>
+                <p class="text-xs hover:text-white cursor-pointer" onclick="switchPage('academics')">Curriculum & Standards</p>
+                <p class="text-xs hover:text-white cursor-pointer" onclick="switchPage('counseling')">Special Education Services</p>
+                <p class="text-xs hover:text-white cursor-pointer" onclick="switchPage('contact')">Employment Opportunities</p>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider">Connect With Us</h4>
+                <div class="flex space-x-3 text-lg">
+                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+                <p class="text-[11px] text-slate-500 pt-2 leading-relaxed">
+                    Ridgeview Valley Middle School is an equal opportunity public educational institution committed to non-discrimination in programs, activities, and employment.
+                </p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-6 border-t border-navy-900 text-center text-xs text-slate-500">
+            &copy; 2026 Ridgeview Valley Middle School District. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Page Navigation Switcher
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            const targetView = document.getElementById('view-' + pageId);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-silver-100', 'text-navy-900');
+                if(btn.getAttribute('data-page') === pageId) {
+                    btn.classList.add('bg-silver-100', 'text-navy-900');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Dismiss Emergency Alert Banner
+        function dismissAlert() {
+            const banner = document.getElementById('emergency-alert');
+            if (banner) {
+                banner.style.display = 'none';
+            }
+        }
+
+        // Modal Controllers
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function openNewsModal(title, date, content) {
+            document.getElementById('newsModalTitle').textContent = title;
+            document.getElementById('newsModalDate').innerHTML = `<i class="fa-regular fa-calendar"></i> ${date}`;
+            document.getElementById('newsModalContent').textContent = content;
+            openModal('newsModal');
+        }
+
+        function submitModalForm(event, modalId, successMessage) {
+            event.preventDefault();
+            alert(successMessage);
+            closeModal(modalId);
+            event.target.reset();
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for contacting Ridgeview Valley Middle School. Your message has been routed to the main office.');
+            event.target.reset();
+        }
+
+        // Staff Directory Filter
+        function filterStaff() {
+            const query = document.getElementById('staff-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.staff-card');
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const dept = card.getAttribute('data-dept').toLowerCase();
+                if (name.includes(query) || dept.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
